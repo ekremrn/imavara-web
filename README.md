@@ -1,31 +1,31 @@
 # Imavara Web
 
-Imavara’nın React ve Vite ile çalışan tarayıcı arayüzü. Ana ekrana aradığın fotoğrafı yazabilir, sesle tarif edebilir veya bir referans görsel ekleyebilirsin. Sohbet, sonuçları önizleme, benzerlik skoru ve indirme eylemi olan kartlarla sunar. [Backend ve mimari çizimler](https://github.com/ekremrn/imavara-server#sistem-nasıl-çalışır)
+Imavara's React and Vite client helps you find a stock photo or create one when the catalog has no suitable match. Start with a written description, record a voice message, or attach a reference image. The chat presents results as cards with previews, similarity scores, and an original-file download action. [Backend and architecture diagrams](https://github.com/ekremrn/imavara-server#architecture)
 
-## Arayüzde neler var?
+## Using the app
 
-- **Sohbet** üzerinden görsel ara, yeni bir fotoğraf iste veya seçtiğin karttan varyasyon üret. Önceki konuşmaları aynı tarayıcıda yeniden açabilirsin.
-- **Keşfet** üzerinden ortak kataloğu gez, metinle veya referans görselle ara ve sonuçları filtrele. Fotoğrafa tıklayarak büyütebilir, üzerindeki düğmeyle orijinali indirebilirsin.
-- **Kitaplık** ürettiğin ve edindiğin görselleri bir arada gösterir. Yeni tarayıcı oturumu 100 krediyle başlar. Arama ve önizleme ücretsizdir. İlk edinim 1 kredi, üretim veya varyasyon 3 kredidir. Edinilmiş bir orijinali tekrar indirmek ücretsizdir.
+- **Chat** to search, generate a photo, or request a variation of a specific result. Reopen past conversations in the same browser.
+- **Discover** lets you browse the shared catalog, search by text or reference image, and filter results. Click a preview to enlarge it or use its download button to get the original.
+- **Library** holds the images you generated or acquired. A new browser session starts with 100 credits. Search and preview are free. First acquisition costs 1 credit, generation or variation costs 3, and downloading an acquired original again is free.
 
-## Yerel kurulum
+## Local setup
 
-Önce backend’i Docker Compose ile başlat. Arayüzün varsayılan API adresi `http://127.0.0.1:18080`. [Server kurulum yönergesi](https://github.com/ekremrn/imavara-server#yerel-kurulum)
+Start the backend with Docker Compose. The default API address is `http://127.0.0.1:18080`. [Server setup](https://github.com/ekremrn/imavara-server#local-setup)
 
-Node.js 22.12 veya üstüyle bu repo kökünde çalıştır:
+From this repository, using Node.js 22.12 or later:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Terminalde Vite’ın gösterdiği adresi aç. Tarayıcı aynı origin üzerinden çalışır. Vite, `/v1` isteklerini ve sohbet WebSocket bağlantısını API’ye iletir. API başka bir adresteyse `IMAVARA_API_URL` ortam değişkenini Vite’ı başlatırken ayarla. Ses kaydı için tarayıcıda mikrofon izni ve HTTPS veya localhost gerekir.
+Open the local address printed by Vite. Its proxy forwards both HTTP requests under `/v1` and the chat WebSocket to the API, allowing the browser to use a single origin. Set `IMAVARA_API_URL` when starting Vite to select a different backend. Voice recording requires microphone permission and HTTPS or localhost.
 
-Derlemeyi ve yerel önizlemeyi çalıştırmak için:
+To build and preview the production bundle locally:
 
 ```sh
 npm run build
 npm run preview
 ```
 
-[Geliştirme rehberi](AGENTS.md) · [Değişiklik geçmişi](CHANGELOG.md)
+[Development guide](AGENTS.md) · [Changelog](CHANGELOG.md)

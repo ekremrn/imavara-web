@@ -1,23 +1,23 @@
-# Imavara web çalışma rehberi
+# Web development guide
 
-Bu repo istemci taraflı React arayüzünü taşır. Açılış ve sohbet ana akıştır. Keşfet doğrudan katalog araması sunar. Bir değişikliğe etkilenen kullanıcı eyleminden başla ve gerçek API yanıtına kadar izle.
+This repository contains the client-side React app. Trace changes from the user action through the screen, API client, and server response. Chat is the main entry point. Discover also supports direct catalog searches.
 
-## Yerleşim ve davranış
+## Code ownership
 
-Yönlendirme ve uygulama kabuğunu `src/app`, ürün ekranlarını `src/features/{chat,discover,assets,contributions,library}`, ortak kart ve kontrolleri `src/components`, HTTP ve WebSocket erişimini `src/api` altında geliştir. Aynı özelliği kullanan ekranlarda mevcut bileşeni paylaş. Tarayıcı oturumunu API çereziyle sürdür. Bakiye, fiyat, dosya hakkı ve işlem sonucu için API yanıtını göster. MCP, storage anahtarı ve model sağlayıcısı backend sınırında kalır.
+Keep the shell and navigation in `src/app`, product screens under `src/features` (chat, discovery, assets, contributions, and library), shared cards and controls in `src/components`, and transport code in `src/api`. Reuse components across screens. Maintain the session with the API cookie and use server responses for balances, prices, download rights, and operation outcomes. Storage credentials, MCP calls, and model access belong on the server.
 
-## Uyumluluk ve doğrulama
+## Compatibility and verification
 
-İstek alanlarını, kart kimliklerini, WebSocket olay sırasını ve ücretli işlem anahtarını sunucu sözleşmesiyle eşleştir. Yeni isteğe bağlı alan eksikken önceki sunucu yanıtını ve eski konuşmaları açmayı dene. Yeni olay tipleri geldiğinde tanınan olayların işlenmesi sürmeli. Zorunlu sözleşme değişikliğini server reposundaki geçişle eşleştir. Kesilen bağlantıdan dönünce aynı mesajın ikinci kez gönderilmediğini, kart sırasının ve edinim hakkının korunduğunu dene.
+Keep request fields, card IDs, WebSocket event order, and paid-operation keys compatible with the server. Test older responses and saved conversations with optional fields missing. Unknown events must allow processing of subsequent recognized events. Coordinate required wire changes with the server rollout. Reconnect during a turn and verify that the message is sent once, the card order survives, and acquisition rights are preserved.
 
-Ses girişini değiştirirken açılışta ve sohbette mikrofon izni, iptal, tek Gönder ile otomatik mesaj ve hata sonrası taslağı kontrol et. Agent durumunu gerçek servis olayına bağla. İlgili ekranı klavye ve azaltılmış hareket tercihiyle de dene.
+For voice changes, exercise the opening screen and an existing chat. Check microphone permission, cancellation, automatic submission on Send, and draft recovery after failure. Show agent progress from actual service events. Test keyboard access and reduced motion.
 
-## Gözlemlenebilirlik
+## Observability
 
-Yeniden deneme, arama, edinim veya indirme davranışı değiştiğinde API olaylarının ve Grafana’da izlenen sayaçların çift sayılmadığını kontrol et. Yeni bir ölçüm gerekiyorsa sunucudaki Prometheus metriği ve ilgili panelle eşleştir. Sentry etkin olduğunda istemci hatasını ekran ve işlem bağlamıyla ilişkilendir. Ham ses, sohbet metni, görsel ve çerezi hata raporuna ekleme. Yerel arayüz boş Sentry DSN ile çalışmalı.
+When changing retries, search, acquisition, or download, verify that API events and Grafana counters are counted once. Coordinate new measurements with the server's Prometheus metrics and panels. If Sentry is enabled, include screen and operation context. Exclude raw audio, prompts, images, and cookies from error reports. Local operation must support an empty DSN.
 
-## Değişiklik ve sürüm kaydı
+## Delivery and release notes
 
-Teslimden önce bağımlılıkları kilit dosyasıyla kur (`npm ci`), `npm run build` çalıştır ve değiştirdiğin akışı yerel API’ye bağlı tarayıcıda dene. Örneğin kart eylemi değiştiyse aynı görseli hem sohbetten hem Keşfet’ten aç. İlk edinimden sonra iki ekranda da güncel bakiye ve yeniden indirme hakkı görünmeli.
+Install from the lockfile with `npm ci`, run `npm run build`, and test the changed action in a browser connected to the local API. For a card action, open the same asset from Chat and Discover and check balance and download rights after the first acquisition.
 
-Kullanıcı davranışı, entegrasyon sözleşmesi, veri geçişi veya işletim gereksinimi değiştiğinde aynı commit ya da değişiklik setinde [CHANGELOG.md](CHANGELOG.md) içindeki “Yayımlanmamış” bölümüne kısa bir kayıt ekle. Etkilenen kullanıcıyı veya servisi, görünen farkı ve gerekiyorsa geçiş adımını yaz. İki repoyu etkileyen işte her repo kendi etkisini kaydeder. Önemli bir sürüm yayımlandığında ilgili kayıtları gerçek sürüm ve tarih altında topla. Henüz planlanan özelliği teslim edilmiş gibi kaydetme.
+Record user-visible, integration, migration, and operational changes under **Unreleased** in [CHANGELOG.md](CHANGELOG.md) in the same change set. Describe who is affected, what they will observe, and any migration steps. For cross-repository work, record each repository's impact separately. Group delivered entries under the actual version and date when releasing.
